@@ -9,6 +9,14 @@ export default function CaptionGenerator({
 }) {
   const [captionTab, setCaptionTab] = useState("X");
 
+  // Jika Banner Statis, Sembunyikan Kotak Caption
+  if (
+    selectedTemplate === "/template4.jpg" ||
+    selectedTemplate === "/template5.jpg"
+  ) {
+    return null;
+  }
+
   const getUsername = (xLink, xHandle) => {
     if (xLink) {
       const match = xLink.match(/(?:x\.com|twitter\.com)\/([a-zA-Z0-9_]+)/i);
