@@ -30,6 +30,7 @@ function App() {
       xLink: "",
     }),
   );
+  // Digunakan untuk Template 3 & 4 (sama-sama butuh 5 koin)
   const [coinsT3, setCoinsT3] = useState(
     Array(5).fill({
       logo: null,
@@ -74,15 +75,15 @@ function App() {
     const btn = document.getElementById("download-btn");
     const originalText = btn.innerText;
 
-    // LOGIKA BARU: Jika Template 4 atau 5 (Banner Statis), langsung download file aslinya!
+    // Logika Bypass untuk Banner Statis
     if (
-      selectedTemplate === "/template4.jpg" ||
-      selectedTemplate === "/template5.jpg"
+      selectedTemplate === "/template5.jpg" ||
+      selectedTemplate === "/template6.jpg"
     ) {
       const link = document.createElement("a");
       link.href = selectedTemplate;
       link.download =
-        selectedTemplate === "/template4.jpg"
+        selectedTemplate === "/template5.jpg"
           ? "Fourtis-Banner-1.jpg"
           : "Fourtis-Banner-2.jpg";
       link.click();
@@ -100,7 +101,9 @@ function App() {
         logging: false,
         onclone: (clonedDoc) => {
           const el = clonedDoc.getElementById("preview-capture");
-          if (el) el.style.transform = "scale(1)";
+          if (el) {
+            el.style.transform = "scale(1)";
+          }
         },
       });
 
@@ -122,8 +125,11 @@ function App() {
   };
 
   const isStaticBanner =
-    selectedTemplate === "/template4.jpg" ||
-    selectedTemplate === "/template5.jpg";
+    selectedTemplate === "/template5.jpg" ||
+    selectedTemplate === "/template6.jpg";
+  const needsDate =
+    selectedTemplate === "/template1.jpg" ||
+    selectedTemplate === "/template3.jpg"; // T4 tidak ada tanggal
 
   return (
     <div className="app-container">
@@ -151,17 +157,17 @@ function App() {
           >
             <option value="/template1.jpg">Template 1 (Top 8 Gainers)</option>
             <option value="/template2.jpg">Template 2 (Top 3 Gainers)</option>
-            <option value="/template3.jpg">Template 3 (Top 5 Gainers)</option>
-            <option value="/template4.jpg">
+            <option value="/template3.jpg">Template 3 (Top 5 - Dark)</option>
+            <option value="/template4.jpg">Template 4 (Top 5 - Light)</option>
+            <option value="/template5.jpg">
               Banner 1 (Statis - Launch Project)
             </option>
-            <option value="/template5.jpg">
+            <option value="/template6.jpg">
               Banner 2 (Statis - Header V2)
             </option>
           </select>
         </div>
 
-        {/* Jika Banner Statis, sembunyikan semua form input */}
         {isStaticBanner ? (
           <div
             style={{
@@ -178,21 +184,23 @@ function App() {
           >
             ⭐ <b>Mode Banner Statis</b>
             <br />
-            Gambar ini tidak memerlukan teks atau input koin tambahan. Silakan
-            klik tombol Download di bawah untuk mengunduh gambar aslinya.
+            Gambar ini tidak memerlukan teks tambahan. Silakan klik tombol
+            Download.
           </div>
         ) : (
           <>
-            <div className="input-group">
-              <label className="input-label">2. Tanggal & Hari</label>
-              <input
-                type="text"
-                className="custom-input"
-                placeholder="Ex: Monday | March.25 2026"
-                value={dateText}
-                onChange={(e) => setDateText(e.target.value)}
-              />
-            </div>
+            {needsDate && (
+              <div className="input-group">
+                <label className="input-label">2. Tanggal & Hari</label>
+                <input
+                  type="text"
+                  className="custom-input"
+                  placeholder="Ex: Monday | March.25 2026"
+                  value={dateText}
+                  onChange={(e) => setDateText(e.target.value)}
+                />
+              </div>
+            )}
 
             {/* FORM TEMPLATE 1 */}
             {selectedTemplate === "/template1.jpg" && (
@@ -469,8 +477,9 @@ function App() {
               </>
             )}
 
-            {/* FORM TEMPLATE 3 */}
-            {selectedTemplate === "/template3.jpg" && (
+            {/* FORM TEMPLATE 3 & 4 (Gunakan form 5 koin yang sama) */}
+            {(selectedTemplate === "/template3.jpg" ||
+              selectedTemplate === "/template4.jpg") && (
               <>
                 <label className="input-label" style={{ marginTop: "10px" }}>
                   3. Data 5 Koin & Caption

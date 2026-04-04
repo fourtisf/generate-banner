@@ -9,10 +9,9 @@ export default function CaptionGenerator({
 }) {
   const [captionTab, setCaptionTab] = useState("X");
 
-  // Jika Banner Statis, Sembunyikan Kotak Caption
   if (
-    selectedTemplate === "/template4.jpg" ||
-    selectedTemplate === "/template5.jpg"
+    selectedTemplate === "/template5.jpg" ||
+    selectedTemplate === "/template6.jpg"
   ) {
     return null;
   }
@@ -32,6 +31,7 @@ export default function CaptionGenerator({
   const getActiveCoins = () => {
     if (selectedTemplate === "/template1.jpg") return coinsT1;
     if (selectedTemplate === "/template2.jpg") return coinsT2;
+    // T3 digunakan untuk T3 (Dark) dan T4 (Light)
     return coinsT3;
   };
 
